@@ -15,7 +15,7 @@ This is a backend system designed for booking appointments with sales managers. 
 ## Steps to Run the Application
 
 - Clone the Repository  
-🔹 git clone https://github.com/AbdAllahEl-Gamal/appointment-booking.git
+🔹 git clone https://github.com/AbdAllahEl-Gamal/appointment-booking.git  
 🔹 cd appointment-booking
 - Build the Application  
 🔹 mvn clean install
