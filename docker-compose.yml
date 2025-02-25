@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:15
+    container_name: enpal-coding-challenge-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mypassword123!
+      POSTGRES_DB: coding-challenge
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+
+  app:
+    build: .
+    container_name: appointment-booking-app
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/coding-challenge
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: mypassword123!
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
