@@ -38,7 +38,7 @@ public class AppConstants {
     public static final String START_OF_DAY_SUFFIX = "T00:00:00Z";
     public static final String END_OF_DAY_SUFFIX = "T23:59:59Z";
 
-    // Log message templates
+    // Log Message Templates
     public static final String LOG_FETCHING_SLOTS = "Fetching available slots for request: {}";
     public static final String LOG_FETCHED_MANAGERS = "Fetched available managers: {}";
     public static final String LOG_FETCHED_AVAILABLE_SLOTS = "Fetched available slots: {}";
