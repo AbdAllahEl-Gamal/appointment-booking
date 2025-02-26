@@ -1,6 +1,6 @@
 package com.appointmentbooking.util;
 
-public class Constants {
+public class AppConstants {
 
     // Endpoints
     public static final String CALENDAR_ENDPOINT = "/calendar";
@@ -30,4 +30,22 @@ public class Constants {
         AND EXISTS (SELECT 1 FROM unnest(products) p WHERE p = :product)
         AND :rating = ANY(customer_ratings)
         """;
+
+    // Standard date-time format for parsing and formatting ZonedDateTime
+    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSX";
+
+    // Time suffixes for constructing start and end of the day in UTC
+    public static final String START_OF_DAY_SUFFIX = "T00:00:00Z";
+    public static final String END_OF_DAY_SUFFIX = "T23:59:59Z";
+
+    // Log message templates
+    public static final String LOG_FETCHING_SLOTS = "Fetching available slots for request: {}";
+    public static final String LOG_FETCHED_MANAGERS = "Fetched available managers: {}";
+    public static final String LOG_FETCHED_AVAILABLE_SLOTS = "Fetched available slots: {}";
+    public static final String LOG_FETCHED_BOOKED_SLOTS = "Fetched booked slots: {}";
+    public static final String LOG_FETCHED_NON_OVERLAPPING_SLOTS = "Fetched available nonOverlappingSlots: {}";
+
+    private AppConstants() {
+        // Private constructor to prevent instantiation of utility class
+    }
 }

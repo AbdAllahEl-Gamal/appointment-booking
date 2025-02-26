@@ -7,24 +7,25 @@ import com.appointmentbooking.model.Slot;
 import com.appointmentbooking.repository.SalesManagerRepository;
 import com.appointmentbooking.repository.SlotRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.appointmentbooking.util.AppConstants.*;
+
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AvailabilityService {
 
     private final SalesManagerRepository salesManagerRepository;
     private final SlotRepository slotRepository;
-    private static final Logger logger = LoggerFactory.getLogger(AvailabilityService.class);
 
     public List<AvailabilityResponseDTO> getAvailableSlots(AvailabilityRequestDTO request) {
-        logger.info("Fetching available slots for request: {}", request);
+        log.atDebug().setMessage(LOG_FETCHING_SLOTS).addArgument(request).log();
 
         // Fetch matching sales managers
         List<SalesManager> managers = request.products().stream()
@@ -32,27 +33,31 @@ public class AvailabilityService {
                         request.language(), product, request.rating()).stream())
                 .distinct() // Avoid duplicates if a manager supports multiple requested products
                 .toList();
+        log.atDebug().setMessage(LOG_FETCHED_MANAGERS).addArgument(managers).log();
 
         return managers.stream()
                 .flatMap(manager -> {
                     // Fetch available and booked slots
                     List<Slot> availableSlots = slotRepository.findBySalesManagerIdAndBookedFalseAndStartDateBetween(
                             manager.getId(),
-                            ZonedDateTime.parse(request.date() + "T00:00:00Z"),
-                            ZonedDateTime.parse(request.date() + "T23:59:59Z")
+                            ZonedDateTime.parse(request.date() + START_OF_DAY_SUFFIX),
+                            ZonedDateTime.parse(request.date() + END_OF_DAY_SUFFIX)
                     );
+                    log.atDebug().setMessage(LOG_FETCHED_AVAILABLE_SLOTS).addArgument(availableSlots).log();
 
                     List<Slot> bookedSlots = slotRepository.findBySalesManagerIdAndBookedTrueAndStartDateBetween(
                             manager.getId(),
-                            ZonedDateTime.parse(request.date() + "T00:00:00Z"),
-                            ZonedDateTime.parse(request.date() + "T23:59:59Z")
+                            ZonedDateTime.parse(request.date() + START_OF_DAY_SUFFIX),
+                            ZonedDateTime.parse(request.date() + END_OF_DAY_SUFFIX)
                     );
+                    log.atDebug().setMessage(LOG_FETCHED_BOOKED_SLOTS).addArgument(bookedSlots).log();
 
                     // Filter out overlapping slots
                     List<Slot> nonOverlappingSlots = availableSlots.stream()
                             .filter(slot -> bookedSlots.stream()
                                     .noneMatch(booked -> isOverlapping(slot, booked))) // Remove overlapping slots
                             .toList();
+                    log.atDebug().setMessage(LOG_FETCHED_NON_OVERLAPPING_SLOTS).addArgument(nonOverlappingSlots).log();
 
                     // Group remaining slots by start time and count them
                     return nonOverlappingSlots.stream()
@@ -69,6 +74,6 @@ public class AvailabilityService {
     }
 
     private String formatDate(ZonedDateTime dateTime) {
-        return dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX"));
+        return dateTime.format(DateTimeFormatter.ofPattern(DATE_TIME_FORMAT));
     }
 }

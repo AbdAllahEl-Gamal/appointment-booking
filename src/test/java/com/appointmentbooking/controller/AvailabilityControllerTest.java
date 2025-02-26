@@ -13,8 +13,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 
-import static com.appointmentbooking.util.Constants.CALENDAR_ENDPOINT;
-import static com.appointmentbooking.util.Constants.QUERY_ENDPOINT;
+import static com.appointmentbooking.util.AppConstants.CALENDAR_ENDPOINT;
+import static com.appointmentbooking.util.AppConstants.QUERY_ENDPOINT;
+import static com.appointmentbooking.util.TestConstants.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,22 +39,15 @@ class AvailabilityControllerTest {
 
     @Test
     void getAvailableSlots_ShouldReturnSlots() throws Exception {
-        when(availabilityService.getAvailableSlots(new AvailabilityRequestDTO("2024-05-03", List.of("SolarPanels"), "German", "Bronze")))
-                .thenReturn(List.of(new AvailabilityResponseDTO(1, "2024-05-03T10:30:00.000Z")));
+        when(availabilityService.getAvailableSlots(new AvailabilityRequestDTO(TEST_DATE, TEST_PRODUCTS, TEST_LANGUAGE, TEST_RATING)))
+                .thenReturn(List.of(new AvailabilityResponseDTO(EXPECTED_AVAILABLE_COUNT, EXPECTED_START_DATE)));
 
         mockMvc.perform(post(CALENDAR_ENDPOINT + QUERY_ENDPOINT)
                         .contentType(APPLICATION_JSON)
-                        .content("""
-                        {
-                            "date": "2024-05-03",
-                            "products": ["SolarPanels"],
-                            "language": "German",
-                            "rating": "Bronze"
-                        }
-                        """))
+                        .content(REQUEST_BODY))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].available_count").value(1))
-                .andExpect(jsonPath("$[0].start_date").value("2024-05-03T10:30:00.000Z"));
+                .andExpect(jsonPath("$.length()").value(EXPECTED_AVAILABLE_COUNT))
+                .andExpect(jsonPath("$[0].available_count").value(EXPECTED_AVAILABLE_COUNT))
+                .andExpect(jsonPath("$[0].start_date").value(EXPECTED_START_DATE));
     }
 }

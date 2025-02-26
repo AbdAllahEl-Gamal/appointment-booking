@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.appointmentbooking.util.Constants.CALENDAR_ENDPOINT;
-import static com.appointmentbooking.util.Constants.QUERY_ENDPOINT;
+import static com.appointmentbooking.util.AppConstants.CALENDAR_ENDPOINT;
+import static com.appointmentbooking.util.AppConstants.QUERY_ENDPOINT;
 
 @RestController
 @RequestMapping(CALENDAR_ENDPOINT)

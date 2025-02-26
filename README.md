@@ -44,8 +44,10 @@ appointment-booking/
 │   ├── test/
 │   │   ├── java/com/appointmentbooking/
 │   │   │   ├── controller/
+│   │   │   ├── util/
 │── Dockerfile
 │── docker-compose.yml
 │── init.sql
+│── logback-spring.xml
 │── pom.xml
 │── README.md

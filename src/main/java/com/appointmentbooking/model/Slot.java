@@ -5,8 +5,8 @@ import lombok.Data;
 import jakarta.persistence.*;
 import java.time.ZonedDateTime;
 
-import static com.appointmentbooking.util.Constants.COLUMN_SALES_MANAGER_ID;
-import static com.appointmentbooking.util.Constants.TABLE_SLOTS;
+import static com.appointmentbooking.util.AppConstants.COLUMN_SALES_MANAGER_ID;
+import static com.appointmentbooking.util.AppConstants.TABLE_SLOTS;
 
 @Entity
 @Table(name = TABLE_SLOTS)

@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-import static com.appointmentbooking.util.Constants.*;
+import static com.appointmentbooking.util.AppConstants.*;
 
 public interface SalesManagerRepository extends JpaRepository<SalesManager, Long> {
 

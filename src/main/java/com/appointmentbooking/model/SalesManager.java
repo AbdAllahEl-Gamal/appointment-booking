@@ -7,7 +7,7 @@ import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 
-import static com.appointmentbooking.util.Constants.*;
+import static com.appointmentbooking.util.AppConstants.*;
 
 @Entity
 @Table(name = TABLE_SALES_MANAGERS)
