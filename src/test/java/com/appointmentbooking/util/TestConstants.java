@@ -24,6 +24,9 @@ public class TestConstants {
         }
     """;
 
+    // Log Message Templates
+    public static final String LOG_FETCHING_AVAILABLE_SLOTS = "getAvailableSlots returned: {}";
+
     private TestConstants() {
         // Private constructor to prevent instantiation of utility class
     }
