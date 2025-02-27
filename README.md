@@ -44,6 +44,7 @@ appointment-booking/
 │   ├── test/
 │   │   ├── java/com/appointmentbooking/
 │   │   │   ├── controller/
+│   │   │   ├── service/
 │   │   │   ├── util/
 │── Dockerfile
 │── docker-compose.yml
